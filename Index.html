@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Mathe Spaß</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+
+:root {
+–bg: #fafaf8;
+–card: #ffffff;
+–text: #1a1a2e;
+–muted: #8a8a9a;
+–correct: #22c55e;
+–wrong: #ef4444;
+–accent: #6366f1;
+–accent-soft: #ede9fe;
+–add-color: #f97316;
+–add-soft: #fff0e6;
+–sub-color: #6366f1;
+–mix-color: #0ea5e9;
+–mix-soft: #e0f2fe;
+–star-off: #e5e7eb;
+–btn-shadow: 0 4px 0 rgba(0,0,0,0.12);
+–btn-shadow-press: 0 1px 0 rgba(0,0,0,0.12);
+–radius: 20px;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+font-family: ‘Nunito’, ‘PingFang TC’, ‘微軟正黑體’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100dvh;
+display: flex;
+flex-direction: column;
+align-items: center;
+overflow-x: hidden;
+}
+
+/* ── TOP BAR ── */
+#topbar {
+width: 100%;
+max-width: 480px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 16px 20px 8px;
+}
+
+.lang-btn {
+background: var(–accent-soft);
+color: var(–accent);
+border: none;
+border-radius: 99px;
+padding: 8px 16px;
+font-family: inherit;
+font-size: 13px;
+font-weight: 800;
+cursor: pointer;
+transition: background 0.15s;
+white-space: nowrap;
+}
+.lang-btn:active { background: #c7d2fe; }
+
+/* ── LEVEL SELECTOR ── */
+#level-row { display: flex; gap: 7px; }
+.level-btn {
+background: var(–card);
+color: var(–muted);
+border: 2.5px solid var(–star-off);
+border-radius: 99px;
+padding: 7px 14px;
+font-family: inherit;
+font-size: 14px;
+font-weight: 800;
+cursor: pointer;
+transition: all 0.15s;
+}
+.level-btn.active {
+background: var(–accent);
+color: #fff;
+border-color: var(–accent);
+}
+
+/* ── MODE ROW ── */
+#mode-row {
+width: 100%;
+max-width: 480px;
+display: flex;
+gap: 8px;
+padding: 0 20px 10px;
+}
+
+.mode-btn {
+flex: 1;
+background: var(–card);
+color: var(–muted);
+border: 2.5px solid var(–star-off);
+border-radius: var(–radius);
+padding: 11px 6px;
+font-family: inherit;
+font-size: 15px;
+font-weight: 900;
+cursor: pointer;
+transition: all 0.15s;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 5px;
+}
+.mode-btn .mode-icon { font-size: 18px; }
+
+.mode-btn[data-mode=“add”].active  { background: var(–add-soft);  color: var(–add-color);  border-color: var(–add-color); }
+.mode-btn[data-mode=“sub”].active  { background: var(–accent-soft); color: var(–sub-color); border-color: var(–sub-color); }
+.mode-btn[data-mode=“mix”].active  { background: var(–mix-soft);  color: var(–mix-color);  border-color: var(–mix-color); }
+
+/* ── MAIN ── */
+#main {
+width: 100%;
+max-width: 480px;
+padding: 4px 20px 30px;
+display: flex;
+flex-direction: column;
+align-items: center;
+flex: 1;
+}
+
+/* ── STARS ── */
+#stars { display: flex; gap: 7px; margin-bottom: 16px; }
+.star { font-size: 22px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+.star.on { transform: scale(1.15); }
+
+/* ── PROBLEM CARD ── */
+#problem-box {
+background: var(–card);
+border-radius: var(–radius);
+width: 100%;
+padding: 30px 20px 22px;
+text-align: center;
+box-shadow: 0 2px 24px rgba(99,102,241,0.07);
+margin-bottom: 10px;
+transition: border-color 0.3s;
+border: 3px solid transparent;
+}
+#problem-box.mode-add { border-color: #fed7aa; }
+#problem-box.mode-sub { border-color: #c7d2fe; }
+#problem-box.mode-mix { border-color: #bae6fd; }
+
+#hint-label {
+font-size: 15px;
+font-weight: 700;
+color: var(–muted);
+margin-bottom: 8px;
+min-height: 22px;
+}
+
+#problem-text {
+font-size: clamp(48px, 15vw, 84px);
+font-weight: 900;
+letter-spacing: -2px;
+line-height: 1;
+color: var(–text);
+user-select: none;
+}
+#problem-text .op-add { color: var(–add-color); }
+#problem-text .op-sub { color: var(–sub-color); }
+
+/* ── NUMBER LINE ── */
+#number-line-wrap { width: 100%; overflow: hidden; padding: 8px 0 2px; margin-top: 14px; }
+#number-line { display: flex; align-items: flex-end; gap: 0; width: 100%; height: 52px; }
+
+.nl-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nl-dot {
+width: 10px; height: 10px; border-radius: 50%;
+background: var(–star-off);
+transition: background 0.2s, transform 0.2s;
+}
+.nl-dot.result-dot { background: var(–correct); transform: scale(1.3); }
+.nl-dot.start-dot  { background: var(–accent);  transform: scale(1.2); }
+.nl-dot.jump-sub   { background: #a5b4fc; }
+.nl-dot.jump-add   { background: #fdba74; }
+
+.nl-num { font-size: 11px; font-weight: 800; color: var(–muted); }
+.nl-num.result-num { color: var(–correct); }
+.nl-num.start-num  { color: var(–accent); }
+
+/* ── FEEDBACK ── */
+#feedback {
+min-height: 36px;
+font-size: 21px;
+font-weight: 900;
+text-align: center;
+margin: 8px 0 4px;
+transition: opacity 0.2s;
+}
+#feedback.correct { color: var(–correct); }
+#feedback.wrong   { color: var(–wrong); }
+#feedback.hidden  { opacity: 0; }
+
+/* ── CHOICES ── */
+#choices {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
+width: 100%;
+margin-top: 4px;
+}
+
+.choice-btn {
+background: var(–card);
+color: var(–text);
+border: 3px solid var(–star-off);
+border-radius: var(–radius);
+padding: 20px 8px;
+font-family: inherit;
+font-size: clamp(28px, 9vw, 42px);
+font-weight: 900;
+cursor: pointer;
+box-shadow: var(–btn-shadow);
+transition: transform 0.1s, box-shadow 0.1s, background 0.15s, border-color 0.15s;
+user-select: none;
+outline: none;
+-webkit-appearance: none;
+}
+.choice-btn:active { transform: translateY(3px); box-shadow: var(–btn-shadow-press); }
+.choice-btn.correct-ans { background: #dcfce7; border-color: var(–correct); color: #15803d; }
+.choice-btn.wrong-ans   { background: #fee2e2; border-color: var(–wrong);   color: #b91c1c; }
+.choice-btn:disabled { cursor: default; }
+
+/* ── NEXT BTN ── */
+#next-btn {
+margin-top: 16px;
+background: var(–accent);
+color: #fff;
+border: none;
+border-radius: var(–radius);
+width: 100%;
+padding: 18px;
+font-family: inherit;
+font-size: 20px;
+font-weight: 900;
+cursor: pointer;
+box-shadow: 0 5px 0 #4338ca;
+letter-spacing: 0.02em;
+transition: transform 0.1s, box-shadow 0.1s;
+display: none;
+}
+#next-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #4338ca; }
+
+/* ── CELEBRATE ── */
+#celebrate {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(255,255,255,0.93);
+z-index: 100;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 14px;
+text-align: center;
+padding: 24px;
+}
+#celebrate.show { display: flex; }
+#celebrate-emoji { font-size: 72px; animation: bounce 0.6s ease infinite alternate; }
+#celebrate-score { font-size: 36px; font-weight: 900; color: var(–text); }
+#celebrate-text  { font-size: 22px; font-weight: 900; color: var(–text); }
+#celebrate-sub   { font-size: 16px; color: var(–muted); font-weight: 700; }
+#restart-btn {
+margin-top: 10px;
+background: var(–accent);
+color: #fff;
+border: none;
+border-radius: var(–radius);
+padding: 16px 44px;
+font-family: inherit;
+font-size: 20px;
+font-weight: 900;
+cursor: pointer;
+box-shadow: 0 5px 0 #4338ca;
+}
+
+@keyframes bounce {
+from { transform: translateY(0); }
+to   { transform: translateY(-12px); }
+}
+</style>
+
+</head>
+<body>
+
+<!-- TOP BAR -->
+
+<div id="topbar">
+  <div id="level-row">
+    <button class="level-btn active" onclick="setLevel(1)" id="lvl1">1</button>
+    <button class="level-btn" onclick="setLevel(2)" id="lvl2">2</button>
+    <button class="level-btn" onclick="setLevel(3)" id="lvl3">3</button>
+  </div>
+  <button class="lang-btn" id="lang-toggle" onclick="cycleLang()">EN</button>
+</div>
+
+<!-- MODE ROW -->
+
+<div id="mode-row">
+  <button class="mode-btn active" data-mode="sub" onclick="setMode('sub')" id="mode-sub">
+    <span class="mode-icon">➖</span><span id="lbl-sub">Minus</span>
+  </button>
+  <button class="mode-btn" data-mode="add" onclick="setMode('add')" id="mode-add">
+    <span class="mode-icon">➕</span><span id="lbl-add">Plus</span>
+  </button>
+  <button class="mode-btn" data-mode="mix" onclick="setMode('mix')" id="mode-mix">
+    <span class="mode-icon">🔀</span><span id="lbl-mix">Gemischt</span>
+  </button>
+</div>
+
+<!-- MAIN -->
+
+<div id="main">
+  <div id="stars"></div>
+
+  <div id="problem-box" class="mode-sub">
+    <div id="hint-label"></div>
+    <div id="problem-text"></div>
+    <div id="number-line-wrap">
+      <div id="number-line"></div>
+    </div>
+  </div>
+
+  <div id="feedback" class="hidden">　</div>
+  <div id="choices"></div>
+  <button id="next-btn" onclick="nextQuestion()"></button>
+</div>
+
+<!-- CELEBRATE -->
+
+<div id="celebrate">
+  <div id="celebrate-emoji">🌟</div>
+  <div id="celebrate-score"></div>
+  <div id="celebrate-text"></div>
+  <div id="celebrate-sub"></div>
+  <button id="restart-btn" onclick="restartRound()"></button>
+</div>
+
+<script>
+// ── DICTIONARY ────────────────────────────────────────────
+const DICT = {
+  de: {
+    correct: "Richtig! 🎉",
+    wrong: "Nicht ganz…",
+    showAnswer: "Antwort:",
+    choose: "Was ist die Antwort?",
+    next: "Weiter →",
+    celebrate: "Super gemacht!",
+    celebrateSub: "Du hast die Runde beendet!",
+    restart: "Nochmal spielen",
+    langToggle: "EN",
+    modeAdd: "Plus",
+    modeSub: "Minus",
+    modeMix: "Gemischt",
+    scoreOf: (s, t) => `${s} von ${t} ⭐`,
+  },
+  en: {
+    correct: "Correct! 🎉",
+    wrong: "Not quite…",
+    showAnswer: "Answer:",
+    choose: "What is the answer?",
+    next: "Next →",
+    celebrate: "Amazing!",
+    celebrateSub: "You finished the round!",
+    restart: "Play Again",
+    langToggle: "中文",
+    modeAdd: "Add",
+    modeSub: "Sub",
+    modeMix: "Mix",
+    scoreOf: (s, t) => `${s} / ${t} ⭐`,
+  },
+  "zh-TW": {
+    correct: "答對了！🎉",
+    wrong: "再想一下…",
+    showAnswer: "答案是：",
+    choose: "答案是多少？",
+    next: "下一題 →",
+    celebrate: "太棒了！",
+    celebrateSub: "你完成了這一輪！",
+    restart: "再玩一次",
+    langToggle: "DE",
+    modeAdd: "加法",
+    modeSub: "減法",
+    modeMix: "混合",
+    scoreOf: (s, t) => `${s} / ${t} ⭐`,
+  }
+};
+
+const LANGS = ["de", "en", "zh-TW"];
+let langIdx = 0;
+let lang = LANGS[langIdx];
+
+function t(key, ...args) {
+  const val = DICT[lang][key];
+  return typeof val === "function" ? val(...args) : val;
+}
+
+function cycleLang() {
+  langIdx = (langIdx + 1) % LANGS.length;
+  lang = LANGS[langIdx];
+  document.documentElement.lang = lang;
+  renderUI();
+  renderQuestion();
+}
+
+// ── STATE ─────────────────────────────────────────────────
+const TOTAL_Q = 8;
+let level = 1;
+let mode = "sub";   // "add" | "sub" | "mix"
+let qIndex = 0;
+let score = 0;
+let answered = false;
+let current = {};
+
+const LEVEL_MAX = { 1: 5, 2: 10, 3: 20 };
+
+// ── AUDIO ─────────────────────────────────────────────────
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let actx;
+function ensureAudio() { if (!actx) actx = new AudioCtx(); }
+
+function playTone(freq, dur, type = "sine", vol = 0.18) {
+  try {
+    ensureAudio();
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
+    o.start(); o.stop(actx.currentTime + dur);
+  } catch(e) {}
+}
+
+function playCorrect() {
+  playTone(523, 0.12);
+  setTimeout(() => playTone(659, 0.12), 110);
+  setTimeout(() => playTone(784, 0.18), 220);
+}
+function playWrong() { playTone(220, 0.2, "sawtooth", 0.1); }
+
+// ── LEVEL & MODE ──────────────────────────────────────────
+function setLevel(l) {
+  level = l;
+  [1,2,3].forEach(i => document.getElementById("lvl"+i).classList.toggle("active", i===l));
+  restartRound();
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.mode === m));
+  document.getElementById("problem-box").className = "mode-" + m;
+  restartRound();
+}
+
+// ── GENERATE QUESTION ─────────────────────────────────────
+function genQuestion() {
+  const max = LEVEL_MAX[level];
+  const op = mode === "mix" ? (Math.random() < 0.5 ? "add" : "sub") : mode;
+  let a, b, answer;
+
+  if (op === "sub") {
+    do {
+      a = Math.floor(Math.random() * (max + 1));
+      b = Math.floor(Math.random() * (a + 1));
+    } while (a === 0 && b === 0);
+    answer = a - b;
+  } else {
+    // addition: a + b = answer, answer <= max
+    a = Math.floor(Math.random() * max);
+    b = Math.floor(Math.random() * (max - a + 1));
+    answer = a + b;
+  }
+
+  // Build 3 unique plausible choices
+  const choices = new Set([answer]);
+  let tries = 0;
+  while (choices.size < 3 && tries++ < 200) {
+    const noise = Math.floor(Math.random() * 5) - 2;
+    const c = answer + noise;
+    if (c >= 0 && c <= max + 5 && c !== answer) choices.add(c);
+  }
+  for (let v = 0; choices.size < 3; v++) {
+    if (v >= 0 && v !== answer) choices.add(v);
+  }
+
+  return { a, b, answer, op, choices: [...choices].sort(() => Math.random() - 0.5) };
+}
+
+// ── NUMBER LINE ───────────────────────────────────────────
+function renderNumberLine({ a, b, answer, op }) {
+  const max = LEVEL_MAX[level];
+  const nl = document.getElementById("number-line");
+  nl.innerHTML = "";
+  const showMax = Math.min(Math.max(max, answer), 20);
+  const lo = op === "sub" ? answer : a;
+  const hi = op === "sub" ? a     : answer;
+
+  for (let i = 0; i <= showMax; i++) {
+    const cell = document.createElement("div");
+    cell.className = "nl-cell";
+    const dot = document.createElement("div");
+    dot.className = "nl-dot";
+
+    if (i === answer)          dot.classList.add("result-dot");
+    else if (i === a)          dot.classList.add("start-dot");
+    else if (i > lo && i < hi) dot.classList.add(op === "add" ? "jump-add" : "jump-sub");
+
+    const num = document.createElement("div");
+    num.className = "nl-num";
+    const step = showMax <= 10 ? 1 : (showMax <= 15 ? 2 : 5);
+    if (i % step === 0 || i === a || i === answer) {
+      num.textContent = i;
+      if (i === answer) num.classList.add("result-num");
+      if (i === a && i !== answer) num.classList.add("start-num");
+    }
+    cell.appendChild(dot);
+    cell.appendChild(num);
+    nl.appendChild(cell);
+  }
+}
+
+// ── RENDER UI ─────────────────────────────────────────────
+function renderUI() {
+  document.getElementById("lang-toggle").textContent = t("langToggle");
+  document.getElementById("next-btn").textContent = t("next");
+  document.getElementById("lbl-add").textContent = t("modeAdd");
+  document.getElementById("lbl-sub").textContent = t("modeSub");
+  document.getElementById("lbl-mix").textContent = t("modeMix");
+  document.getElementById("celebrate-text").textContent = t("celebrate");
+  document.getElementById("celebrate-sub").textContent = t("celebrateSub");
+  document.getElementById("restart-btn").textContent = t("restart");
+}
+
+// ── STARS ─────────────────────────────────────────────────
+function renderStars() {
+  const el = document.getElementById("stars");
+  el.innerHTML = "";
+  for (let i = 0; i < TOTAL_Q; i++) {
+    const s = document.createElement("span");
+    s.className = "star" + (i < score ? " on" : "");
+    s.textContent = i < score ? "⭐" : "☆";
+    el.appendChild(s);
+  }
+}
+
+// ── RENDER QUESTION ───────────────────────────────────────
+function renderQuestion() {
+  answered = false;
+  const { a, b, op, choices } = current;
+  const opSym = op === "add" ? "+" : "−";
+  const opClass = op === "add" ? "op-add" : "op-sub";
+
+  document.getElementById("problem-text").innerHTML =
+    `${a} <span class="${opClass}">${opSym}</span> ${b} = ?`;
+  document.getElementById("hint-label").textContent = t("choose");
+
+  const fb = document.getElementById("feedback");
+  fb.textContent = "\u00a0"; fb.className = "hidden";
+  document.getElementById("next-btn").style.display = "none";
+
+  renderNumberLine(current);
+  renderStars();
+
+  const box = document.getElementById("choices");
+  box.innerHTML = "";
+  choices.forEach(val => {
+    const btn = document.createElement("button");
+    btn.className = "choice-btn";
+    btn.textContent = val;
+    btn.onclick = () => checkAnswer(val, btn);
+    box.appendChild(btn);
+  });
+}
+
+// ── CHECK ANSWER ──────────────────────────────────────────
+function checkAnswer(val, btn) {
+  if (answered) return;
+  answered = true;
+
+  const fb = document.getElementById("feedback");
+  const btns = document.querySelectorAll(".choice-btn");
+  btns.forEach(b => b.disabled = true);
+
+  if (val === current.answer) {
+    btn.classList.add("correct-ans");
+    fb.textContent = t("correct");
+    fb.className = "correct";
+    score++;
+    renderStars();
+    playCorrect();
+  } else {
+    btn.classList.add("wrong-ans");
+    btns.forEach(b => { if (+b.textContent === current.answer) b.classList.add("correct-ans"); });
+    fb.textContent = `${t("wrong")}  ${t("showAnswer")} ${current.answer}`;
+    fb.className = "wrong";
+    playWrong();
+  }
+
+  if (qIndex >= TOTAL_Q - 1) {
+    setTimeout(showCelebrate, 900);
+  } else {
+    document.getElementById("next-btn").style.display = "block";
+  }
+}
+
+// ── NEXT ──────────────────────────────────────────────────
+function nextQuestion() {
+  qIndex++;
+  current = genQuestion();
+  renderQuestion();
+}
+
+// ── CELEBRATE ─────────────────────────────────────────────
+function showCelebrate() {
+  const emojis = score === TOTAL_Q ? "🏆" : score >= TOTAL_Q * 0.75 ? "🌟" : "😊";
+  document.getElementById("celebrate-emoji").textContent = emojis;
+  document.getElementById("celebrate-score").textContent = t("scoreOf", score, TOTAL_Q);
+  document.getElementById("celebrate-text").textContent = t("celebrate");
+  document.getElementById("celebrate-sub").textContent = t("celebrateSub");
+  document.getElementById("restart-btn").textContent = t("restart");
+  document.getElementById("celebrate").classList.add("show");
+  playCorrect();
+  if (score >= TOTAL_Q * 0.75) {
+    setTimeout(playCorrect, 350);
+    setTimeout(playCorrect, 700);
+  }
+}
+
+function restartRound() {
+  qIndex = 0; score = 0;
+  document.getElementById("celebrate").classList.remove("show");
+  current = genQuestion();
+  renderUI();
+  renderQuestion();
+}
+
+// ── INIT ──────────────────────────────────────────────────
+renderUI();
+restartRound();
+</script>
+
+</body>
+</html>
