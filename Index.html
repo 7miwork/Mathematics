@@ -31,7 +31,7 @@
 - { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 body {
-font-family: ‘Nunito’, ‘PingFang TC’, ‘微軟正黑體’, sans-serif;
+font-family: ‘Nunito’, ‘PingFang TC’, sans-serif;
 background: var(–bg);
 color: var(–text);
 min-height: 100dvh;
@@ -41,247 +41,196 @@ align-items: center;
 overflow-x: hidden;
 }
 
-/* ── TOP BAR ── */
+/* TOP BAR */
 #topbar {
-width: 100%;
-max-width: 480px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 16px 20px 8px;
+width: 100%; max-width: 500px;
+display: flex; align-items: center; justify-content: space-between;
+padding: 14px 18px 6px; gap: 10px;
 }
+#mode-group { display: flex; gap: 6px; flex-wrap: wrap; }
 
 .lang-btn {
-background: var(–accent-soft);
-color: var(–accent);
-border: none;
-border-radius: 99px;
-padding: 8px 16px;
-font-family: inherit;
-font-size: 13px;
-font-weight: 800;
-cursor: pointer;
-transition: background 0.15s;
-white-space: nowrap;
+background: var(–accent-soft); color: var(–accent);
+border: none; border-radius: 99px; padding: 7px 14px;
+font-family: inherit; font-size: 13px; font-weight: 800;
+cursor: pointer; white-space: nowrap; flex-shrink: 0;
 }
 .lang-btn:active { background: #c7d2fe; }
 
-/* ── LEVEL SELECTOR ── */
-#level-row { display: flex; gap: 7px; }
-.level-btn {
-background: var(–card);
-color: var(–muted);
-border: 2.5px solid var(–star-off);
-border-radius: 99px;
-padding: 7px 14px;
-font-family: inherit;
-font-size: 14px;
-font-weight: 800;
-cursor: pointer;
-transition: all 0.15s;
-}
-.level-btn.active {
-background: var(–accent);
-color: #fff;
-border-color: var(–accent);
-}
-
-/* ── MODE ROW ── */
-#mode-row {
-width: 100%;
-max-width: 480px;
-display: flex;
-gap: 8px;
-padding: 0 20px 10px;
-}
-
 .mode-btn {
-flex: 1;
-background: var(–card);
-color: var(–muted);
-border: 2.5px solid var(–star-off);
-border-radius: var(–radius);
-padding: 11px 6px;
-font-family: inherit;
-font-size: 15px;
-font-weight: 900;
-cursor: pointer;
-transition: all 0.15s;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 5px;
+background: var(–card); color: var(–muted);
+border: 2.5px solid var(–star-off); border-radius: 14px;
+padding: 7px 11px; font-family: inherit; font-size: 13px; font-weight: 900;
+cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px;
 }
-.mode-btn .mode-icon { font-size: 18px; }
+.mode-btn[data-mode=“add”].active  { background: var(–add-soft);   color: var(–add-color);  border-color: var(–add-color); }
+.mode-btn[data-mode=“sub”].active  { background: var(–accent-soft); color: var(–sub-color);  border-color: var(–sub-color); }
+.mode-btn[data-mode=“mix”].active  { background: var(–mix-soft);   color: var(–mix-color);  border-color: var(–mix-color); }
 
-.mode-btn[data-mode=“add”].active  { background: var(–add-soft);  color: var(–add-color);  border-color: var(–add-color); }
-.mode-btn[data-mode=“sub”].active  { background: var(–accent-soft); color: var(–sub-color); border-color: var(–sub-color); }
-.mode-btn[data-mode=“mix”].active  { background: var(–mix-soft);  color: var(–mix-color);  border-color: var(–mix-color); }
+/* DIFFICULTY ROW */
+#diff-row {
+width: 100%; max-width: 500px;
+display: flex; gap: 6px; padding: 0 18px 4px;
+}
+.diff-btn {
+flex: 1;
+background: var(–card); color: var(–muted);
+border: 2.5px solid var(–star-off); border-radius: 14px;
+padding: 8px 4px 6px; font-family: inherit;
+font-size: 10px; font-weight: 800; cursor: pointer;
+transition: all 0.15s; display: flex; flex-direction: column;
+align-items: center; gap: 2px; line-height: 1.2; text-align: center;
+}
+.diff-btn .dnum { font-size: 16px; font-weight: 900; }
+.diff-btn[data-d=“1”].active { background: #dcfce7; color: #166534; border-color: #22c55e; }
+.diff-btn[data-d=“2”].active { background: #f0fdf4; color: #365314; border-color: #84cc16; }
+.diff-btn[data-d=“3”].active { background: #fffbeb; color: #92400e; border-color: #f59e0b; }
+.diff-btn[data-d=“4”].active { background: #fff7ed; color: #7c2d12; border-color: #f97316; }
+.diff-btn[data-d=“5”].active { background: #fef2f2; color: #7f1d1d; border-color: #ef4444; }
 
-/* ── MAIN ── */
+/* LEVEL INFO */
+#level-info {
+font-size: 11.5px; font-weight: 700; color: var(–muted);
+text-align: center; padding: 2px 18px 4px;
+width: 100%; max-width: 500px; min-height: 18px;
+}
+
+/* MAIN */
 #main {
-width: 100%;
-max-width: 480px;
-padding: 4px 20px 30px;
-display: flex;
-flex-direction: column;
-align-items: center;
-flex: 1;
+width: 100%; max-width: 500px;
+padding: 2px 18px 28px;
+display: flex; flex-direction: column; align-items: center; flex: 1;
 }
 
-/* ── STARS ── */
-#stars { display: flex; gap: 7px; margin-bottom: 16px; }
-.star { font-size: 22px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
-.star.on { transform: scale(1.15); }
+/* STARS */
+#stars { display: flex; gap: 6px; margin-bottom: 12px; }
+.star { font-size: 20px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+.star.on { transform: scale(1.2); }
 
-/* ── PROBLEM CARD ── */
+/* PROBLEM CARD */
 #problem-box {
-background: var(–card);
-border-radius: var(–radius);
-width: 100%;
-padding: 30px 20px 22px;
-text-align: center;
+background: var(–card); border-radius: var(–radius);
+width: 100%; padding: 22px 20px 16px; text-align: center;
 box-shadow: 0 2px 24px rgba(99,102,241,0.07);
-margin-bottom: 10px;
-transition: border-color 0.3s;
-border: 3px solid transparent;
+margin-bottom: 8px; border: 3px solid transparent;
+transition: border-color 0.3s; position: relative; overflow: hidden;
 }
 #problem-box.mode-add { border-color: #fed7aa; }
 #problem-box.mode-sub { border-color: #c7d2fe; }
 #problem-box.mode-mix { border-color: #bae6fd; }
 
+/* TIMER BAR */
+#timer-bar-wrap {
+position: absolute; bottom: 0; left: 0; right: 0;
+height: 5px; background: #f3f4f6;
+border-radius: 0 0 17px 17px; overflow: hidden;
+display: none;
+}
+#timer-bar {
+height: 100%; width: 100%;
+background: #6366f1;
+transform-origin: left;
+}
+#timer-bar.warn   { background: #f59e0b; }
+#timer-bar.urgent { background: #ef4444; }
+
 #hint-label {
-font-size: 15px;
-font-weight: 700;
-color: var(–muted);
-margin-bottom: 8px;
-min-height: 22px;
+font-size: 13px; font-weight: 700; color: var(–muted);
+margin-bottom: 6px; min-height: 18px;
 }
 
 #problem-text {
-font-size: clamp(48px, 15vw, 84px);
-font-weight: 900;
-letter-spacing: -2px;
-line-height: 1;
-color: var(–text);
-user-select: none;
+font-size: clamp(44px, 13vw, 80px);
+font-weight: 900; letter-spacing: -2px; line-height: 1;
+color: var(–text); user-select: none; transition: filter 0.3s;
 }
+#problem-text.blurred { filter: blur(10px); }
 #problem-text .op-add { color: var(–add-color); }
 #problem-text .op-sub { color: var(–sub-color); }
 
-/* ── NUMBER LINE ── */
-#number-line-wrap { width: 100%; overflow: hidden; padding: 8px 0 2px; margin-top: 14px; }
-#number-line { display: flex; align-items: flex-end; gap: 0; width: 100%; height: 52px; }
-
-.nl-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.nl-dot {
-width: 10px; height: 10px; border-radius: 50%;
-background: var(–star-off);
-transition: background 0.2s, transform 0.2s;
+/* HINT DOTS */
+#hint-dots {
+display: flex; gap: 12px; justify-content: center;
+align-items: center; margin-top: 10px; min-height: 28px; flex-wrap: wrap;
 }
+.dot-group { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; max-width: 110px; }
+.hint-dot { width: 13px; height: 13px; border-radius: 50%; display: inline-block; }
+.hint-dot.dot-a { background: var(–accent); }
+.hint-dot.dot-b { background: var(–add-color); }
+.dot-sep { font-size: 18px; font-weight: 900; color: var(–muted); }
+
+/* NUMBER LINE */
+#number-line-wrap { width: 100%; overflow: hidden; padding: 6px 0 2px; margin-top: 8px; }
+#number-line { display: flex; align-items: flex-end; width: 100%; height: 48px; }
+.nl-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.nl-dot { width: 9px; height: 9px; border-radius: 50%; background: var(–star-off); transition: background 0.2s, transform 0.2s; }
 .nl-dot.result-dot { background: var(–correct); transform: scale(1.3); }
 .nl-dot.start-dot  { background: var(–accent);  transform: scale(1.2); }
 .nl-dot.jump-sub   { background: #a5b4fc; }
 .nl-dot.jump-add   { background: #fdba74; }
-
-.nl-num { font-size: 11px; font-weight: 800; color: var(–muted); }
+.nl-num { font-size: 10px; font-weight: 800; color: var(–muted); }
 .nl-num.result-num { color: var(–correct); }
 .nl-num.start-num  { color: var(–accent); }
 
-/* ── FEEDBACK ── */
+/* TIMEOUT & FEEDBACK */
+#timeout-msg {
+font-size: 17px; font-weight: 900; color: var(–wrong);
+text-align: center; min-height: 26px; margin: 6px 0 2px;
+opacity: 0; transition: opacity 0.2s;
+}
+#timeout-msg.show { opacity: 1; }
+
 #feedback {
-min-height: 36px;
-font-size: 21px;
-font-weight: 900;
-text-align: center;
-margin: 8px 0 4px;
-transition: opacity 0.2s;
+min-height: 32px; font-size: 19px; font-weight: 900;
+text-align: center; margin: 6px 0 4px; transition: opacity 0.2s;
 }
 #feedback.correct { color: var(–correct); }
 #feedback.wrong   { color: var(–wrong); }
 #feedback.hidden  { opacity: 0; }
 
-/* ── CHOICES ── */
-#choices {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 12px;
-width: 100%;
-margin-top: 4px;
-}
-
+/* CHOICES */
+#choices { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; width: 100%; margin-top: 4px; }
 .choice-btn {
-background: var(–card);
-color: var(–text);
-border: 3px solid var(–star-off);
-border-radius: var(–radius);
-padding: 20px 8px;
-font-family: inherit;
-font-size: clamp(28px, 9vw, 42px);
-font-weight: 900;
-cursor: pointer;
-box-shadow: var(–btn-shadow);
+background: var(–card); color: var(–text);
+border: 3px solid var(–star-off); border-radius: var(–radius);
+padding: 18px 8px; font-family: inherit;
+font-size: clamp(26px, 8vw, 40px); font-weight: 900;
+cursor: pointer; box-shadow: var(–btn-shadow);
 transition: transform 0.1s, box-shadow 0.1s, background 0.15s, border-color 0.15s;
-user-select: none;
-outline: none;
--webkit-appearance: none;
+user-select: none; outline: none; -webkit-appearance: none;
 }
 .choice-btn:active { transform: translateY(3px); box-shadow: var(–btn-shadow-press); }
 .choice-btn.correct-ans { background: #dcfce7; border-color: var(–correct); color: #15803d; }
 .choice-btn.wrong-ans   { background: #fee2e2; border-color: var(–wrong);   color: #b91c1c; }
 .choice-btn:disabled { cursor: default; }
 
-/* ── NEXT BTN ── */
+/* NEXT */
 #next-btn {
-margin-top: 16px;
-background: var(–accent);
-color: #fff;
-border: none;
-border-radius: var(–radius);
-width: 100%;
-padding: 18px;
-font-family: inherit;
-font-size: 20px;
-font-weight: 900;
-cursor: pointer;
-box-shadow: 0 5px 0 #4338ca;
-letter-spacing: 0.02em;
-transition: transform 0.1s, box-shadow 0.1s;
-display: none;
+margin-top: 14px; background: var(–accent); color: #fff;
+border: none; border-radius: var(–radius); width: 100%; padding: 16px;
+font-family: inherit; font-size: 19px; font-weight: 900;
+cursor: pointer; box-shadow: 0 5px 0 #4338ca;
+transition: transform 0.1s, box-shadow 0.1s; display: none;
 }
 #next-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #4338ca; }
 
-/* ── CELEBRATE ── */
+/* CELEBRATE */
 #celebrate {
-display: none;
-position: fixed;
-inset: 0;
-background: rgba(255,255,255,0.93);
-z-index: 100;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 14px;
-text-align: center;
-padding: 24px;
+display: none; position: fixed; inset: 0;
+background: rgba(255,255,255,0.93); z-index: 100;
+flex-direction: column; align-items: center; justify-content: center;
+gap: 12px; text-align: center; padding: 24px;
 }
 #celebrate.show { display: flex; }
-#celebrate-emoji { font-size: 72px; animation: bounce 0.6s ease infinite alternate; }
-#celebrate-score { font-size: 36px; font-weight: 900; color: var(–text); }
-#celebrate-text  { font-size: 22px; font-weight: 900; color: var(–text); }
-#celebrate-sub   { font-size: 16px; color: var(–muted); font-weight: 700; }
+#celebrate-emoji { font-size: 70px; animation: bounce 0.6s ease infinite alternate; }
+#celebrate-score { font-size: 34px; font-weight: 900; }
+#celebrate-text  { font-size: 22px; font-weight: 900; }
+#celebrate-sub   { font-size: 15px; color: var(–muted); font-weight: 700; }
 #restart-btn {
-margin-top: 10px;
-background: var(–accent);
-color: #fff;
-border: none;
-border-radius: var(–radius);
-padding: 16px 44px;
-font-family: inherit;
-font-size: 20px;
-font-weight: 900;
-cursor: pointer;
-box-shadow: 0 5px 0 #4338ca;
+margin-top: 10px; background: var(–accent); color: #fff;
+border: none; border-radius: var(–radius); padding: 15px 40px;
+font-family: inherit; font-size: 19px; font-weight: 900;
+cursor: pointer; box-shadow: 0 5px 0 #4338ca;
 }
 
 @keyframes bounce {
@@ -296,27 +245,24 @@ to   { transform: translateY(-12px); }
 <!-- TOP BAR -->
 
 <div id="topbar">
-  <div id="level-row">
-    <button class="level-btn active" onclick="setLevel(1)" id="lvl1">1</button>
-    <button class="level-btn" onclick="setLevel(2)" id="lvl2">2</button>
-    <button class="level-btn" onclick="setLevel(3)" id="lvl3">3</button>
+  <div id="mode-group">
+    <button class="mode-btn active" data-mode="sub" onclick="setMode('sub')" id="mode-sub">➖ <span id="lbl-sub">Minus</span></button>
+    <button class="mode-btn" data-mode="add" onclick="setMode('add')" id="mode-add">➕ <span id="lbl-add">Plus</span></button>
+    <button class="mode-btn" data-mode="mix" onclick="setMode('mix')" id="mode-mix">🔀 <span id="lbl-mix">Gemischt</span></button>
   </div>
   <button class="lang-btn" id="lang-toggle" onclick="cycleLang()">EN</button>
 </div>
 
-<!-- MODE ROW -->
+<!-- DIFFICULTY -->
 
-<div id="mode-row">
-  <button class="mode-btn active" data-mode="sub" onclick="setMode('sub')" id="mode-sub">
-    <span class="mode-icon">➖</span><span id="lbl-sub">Minus</span>
-  </button>
-  <button class="mode-btn" data-mode="add" onclick="setMode('add')" id="mode-add">
-    <span class="mode-icon">➕</span><span id="lbl-add">Plus</span>
-  </button>
-  <button class="mode-btn" data-mode="mix" onclick="setMode('mix')" id="mode-mix">
-    <span class="mode-icon">🔀</span><span id="lbl-mix">Gemischt</span>
-  </button>
+<div id="diff-row">
+  <button class="diff-btn active" data-d="1" onclick="setDiff(1)"><span class="dnum">1</span><span id="dlbl1">Punkte</span></button>
+  <button class="diff-btn" data-d="2" onclick="setDiff(2)"><span class="dnum">2</span><span id="dlbl2">Strahl</span></button>
+  <button class="diff-btn" data-d="3" onclick="setDiff(3)"><span class="dnum">3</span><span id="dlbl3">10 Sek</span></button>
+  <button class="diff-btn" data-d="4" onclick="setDiff(4)"><span class="dnum">4</span><span id="dlbl4">5 Sek</span></button>
+  <button class="diff-btn" data-d="5" onclick="setDiff(5)"><span class="dnum">5</span><span id="dlbl5">Profi</span></button>
 </div>
+<div id="level-info"></div>
 
 <!-- MAIN -->
 
@@ -326,11 +272,12 @@ to   { transform: translateY(-12px); }
   <div id="problem-box" class="mode-sub">
     <div id="hint-label"></div>
     <div id="problem-text"></div>
-    <div id="number-line-wrap">
-      <div id="number-line"></div>
-    </div>
+    <div id="hint-dots"></div>
+    <div id="number-line-wrap"><div id="number-line"></div></div>
+    <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
   </div>
 
+  <div id="timeout-msg"></div>
   <div id="feedback" class="hidden">　</div>
   <div id="choices"></div>
   <button id="next-btn" onclick="nextQuestion()"></button>
@@ -347,307 +294,316 @@ to   { transform: translateY(-12px); }
 </div>
 
 <script>
-// ── DICTIONARY ────────────────────────────────────────────
-const DICT = {
-  de: {
-    correct: "Richtig! 🎉",
-    wrong: "Nicht ganz…",
-    showAnswer: "Antwort:",
-    choose: "Was ist die Antwort?",
-    next: "Weiter →",
-    celebrate: "Super gemacht!",
-    celebrateSub: "Du hast die Runde beendet!",
-    restart: "Nochmal spielen",
-    langToggle: "EN",
-    modeAdd: "Plus",
-    modeSub: "Minus",
-    modeMix: "Gemischt",
-    scoreOf: (s, t) => `${s} von ${t} ⭐`,
-  },
-  en: {
-    correct: "Correct! 🎉",
-    wrong: "Not quite…",
-    showAnswer: "Answer:",
-    choose: "What is the answer?",
-    next: "Next →",
-    celebrate: "Amazing!",
-    celebrateSub: "You finished the round!",
-    restart: "Play Again",
-    langToggle: "中文",
-    modeAdd: "Add",
-    modeSub: "Sub",
-    modeMix: "Mix",
-    scoreOf: (s, t) => `${s} / ${t} ⭐`,
-  },
-  "zh-TW": {
-    correct: "答對了！🎉",
-    wrong: "再想一下…",
-    showAnswer: "答案是：",
-    choose: "答案是多少？",
-    next: "下一題 →",
-    celebrate: "太棒了！",
-    celebrateSub: "你完成了這一輪！",
-    restart: "再玩一次",
-    langToggle: "DE",
-    modeAdd: "加法",
-    modeSub: "減法",
-    modeMix: "混合",
-    scoreOf: (s, t) => `${s} / ${t} ⭐`,
-  }
+// ── DIFFICULTY CONFIG ──────────────────────────────────────
+// showDots: Punkte-Hilfe (Level 1 only)
+// showLine: Zahlenstrahl
+// timer: null = kein Timer, sonst Millisekunden
+// maxNum: maximale Zahl
+const DIFF = {
+  1: { maxNum: 5,  showDots: true,  showLine: true,  timer: null  },
+  2: { maxNum: 10, showDots: false, showLine: true,  timer: null  },
+  3: { maxNum: 10, showDots: false, showLine: true,  timer: 10000 },
+  4: { maxNum: 20, showDots: false, showLine: false, timer: 5000  },
+  5: { maxNum: 20, showDots: false, showLine: false, timer: 3000  },
 };
 
-const LANGS = ["de", "en", "zh-TW"];
-let langIdx = 0;
-let lang = LANGS[langIdx];
+// ── DICTIONARY ─────────────────────────────────────────────
+const DICT = {
+  de: {
+    correct: "Richtig! 🎉", wrong: "Nicht ganz…", timeout: "Zeit um! ⏰",
+    showAnswer: "Antwort:", choose: "Was ist das Ergebnis?",
+    next: "Weiter →", celebrate: "Super gemacht!",
+    celebrateSub: "Runde beendet!", restart: "Nochmal spielen",
+    langToggle: "EN", modeAdd: "Plus", modeSub: "Minus", modeMix: "Gemischt",
+    scoreOf: (s,t) => `${s} von ${t} ⭐`,
+    dlbls: ["Punkte","Strahl","10 Sek","5 Sek","Profi"],
+    diffDesc: [
+      "Punkte + Zahlenstrahl · bis 5",
+      "Zahlenstrahl · bis 10",
+      "Zahlenstrahl · bis 10 · 10 Sekunden",
+      "Kein Zahlenstrahl · bis 20 · 5 Sekunden",
+      "Profi-Modus · bis 20 · 3 Sekunden",
+    ],
+  },
+  en: {
+    correct: "Correct! 🎉", wrong: "Not quite…", timeout: "Time's up! ⏰",
+    showAnswer: "Answer:", choose: "What is the answer?",
+    next: "Next →", celebrate: "Amazing!",
+    celebrateSub: "Round complete!", restart: "Play Again",
+    langToggle: "中文", modeAdd: "Add", modeSub: "Sub", modeMix: "Mix",
+    scoreOf: (s,t) => `${s} / ${t} ⭐`,
+    dlbls: ["Dots","Line","10 sec","5 sec","Pro"],
+    diffDesc: [
+      "Dots + Number Line · up to 5",
+      "Number Line · up to 10",
+      "Number Line · up to 10 · 10 seconds",
+      "No line · up to 20 · 5 seconds",
+      "Pro Mode · up to 20 · 3 seconds",
+    ],
+  },
+  "zh-TW": {
+    correct: "答對了！🎉", wrong: "再想一下…", timeout: "時間到！⏰",
+    showAnswer: "答案：", choose: "答案是多少？",
+    next: "下一題 →", celebrate: "太棒了！",
+    celebrateSub: "完成這一輪！", restart: "再玩一次",
+    langToggle: "DE", modeAdd: "加法", modeSub: "減法", modeMix: "混合",
+    scoreOf: (s,t) => `${s} / ${t} ⭐`,
+    dlbls: ["點點","數線","10秒","5秒","高手"],
+    diffDesc: [
+      "點點 + 數線 · 到 5",
+      "數線 · 到 10",
+      "數線 · 到 10 · 10 秒",
+      "無數線 · 到 20 · 5 秒",
+      "高手模式 · 到 20 · 3 秒",
+    ],
+  },
+};
 
-function t(key, ...args) {
-  const val = DICT[lang][key];
-  return typeof val === "function" ? val(...args) : val;
-}
-
+const LANGS = ["de","en","zh-TW"];
+let langIdx = 0, lang = "de";
+function t(key,...a) { const v=DICT[lang][key]; return typeof v==="function"?v(...a):v; }
 function cycleLang() {
-  langIdx = (langIdx + 1) % LANGS.length;
+  langIdx = (langIdx+1)%LANGS.length;
   lang = LANGS[langIdx];
   document.documentElement.lang = lang;
-  renderUI();
-  renderQuestion();
+  renderUI(); renderQuestion();
 }
 
-// ── STATE ─────────────────────────────────────────────────
+// ── STATE ──────────────────────────────────────────────────
 const TOTAL_Q = 8;
-let level = 1;
-let mode = "sub";   // "add" | "sub" | "mix"
-let qIndex = 0;
-let score = 0;
-let answered = false;
-let current = {};
+let diff=1, mode="sub", qIndex=0, score=0, answered=false, current={};
+let timerRAF=null, timerStart=null, timerDur=null;
 
-const LEVEL_MAX = { 1: 5, 2: 10, 3: 20 };
-
-// ── AUDIO ─────────────────────────────────────────────────
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
+// ── AUDIO ──────────────────────────────────────────────────
+const ACtx = window.AudioContext||window.webkitAudioContext;
 let actx;
-function ensureAudio() { if (!actx) actx = new AudioCtx(); }
-
-function playTone(freq, dur, type = "sine", vol = 0.18) {
-  try {
+function ensureAudio(){ if(!actx) actx=new ACtx(); }
+function tone(f,d,type="sine",v=0.18){
+  try{
     ensureAudio();
-    const o = actx.createOscillator();
-    const g = actx.createGain();
-    o.connect(g); g.connect(actx.destination);
-    o.type = type; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, actx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + dur);
-    o.start(); o.stop(actx.currentTime + dur);
-  } catch(e) {}
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.connect(g);g.connect(actx.destination);
+    o.type=type;o.frequency.value=f;
+    g.gain.setValueAtTime(v,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+d);
+    o.start();o.stop(actx.currentTime+d);
+  }catch(e){}
 }
+function playOK()  { tone(523,.12);setTimeout(()=>tone(659,.12),110);setTimeout(()=>tone(784,.18),220); }
+function playBad() { tone(220,.2,"sawtooth",.1); }
+function playTick(){ tone(330,.12,"triangle",.1);setTimeout(()=>tone(260,.22,"sawtooth",.07),130); }
 
-function playCorrect() {
-  playTone(523, 0.12);
-  setTimeout(() => playTone(659, 0.12), 110);
-  setTimeout(() => playTone(784, 0.18), 220);
-}
-function playWrong() { playTone(220, 0.2, "sawtooth", 0.1); }
-
-// ── LEVEL & MODE ──────────────────────────────────────────
-function setLevel(l) {
-  level = l;
-  [1,2,3].forEach(i => document.getElementById("lvl"+i).classList.toggle("active", i===l));
+// ── DIFFICULTY ─────────────────────────────────────────────
+function setDiff(d){
+  diff=d;
+  document.querySelectorAll(".diff-btn").forEach(b=>b.classList.toggle("active",+b.dataset.d===d));
+  document.getElementById("level-info").textContent = t("diffDesc")[d-1];
   restartRound();
 }
 
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.mode === m));
-  document.getElementById("problem-box").className = "mode-" + m;
+function setMode(m){
+  mode=m;
+  document.querySelectorAll(".mode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===m));
+  document.getElementById("problem-box").className="mode-"+m;
   restartRound();
 }
 
-// ── GENERATE QUESTION ─────────────────────────────────────
-function genQuestion() {
-  const max = LEVEL_MAX[level];
-  const op = mode === "mix" ? (Math.random() < 0.5 ? "add" : "sub") : mode;
-  let a, b, answer;
-
-  if (op === "sub") {
-    do {
-      a = Math.floor(Math.random() * (max + 1));
-      b = Math.floor(Math.random() * (a + 1));
-    } while (a === 0 && b === 0);
-    answer = a - b;
+// ── QUESTION ───────────────────────────────────────────────
+function gen(){
+  const cfg=DIFF[diff], max=cfg.maxNum;
+  const op=mode==="mix"?(Math.random()<.5?"add":"sub"):mode;
+  let a,b,answer;
+  if(op==="sub"){
+    do{ a=rnd(max); b=rnd(a); }while(a===0&&b===0);
+    answer=a-b;
   } else {
-    // addition: a + b = answer, answer <= max
-    a = Math.floor(Math.random() * max);
-    b = Math.floor(Math.random() * (max - a + 1));
-    answer = a + b;
+    a=rnd(max-1); b=rnd(max-a); answer=a+b;
   }
+  const s=new Set([answer]);
+  let t2=0;
+  while(s.size<3&&t2++<300){
+    const n=Math.floor(Math.random()*6)-3, c=answer+n;
+    if(c>=0&&c<=max+3&&c!==answer) s.add(c);
+  }
+  for(let v=0;s.size<3;v++) if(v>=0&&v!==answer) s.add(v);
+  return{a,b,answer,op,choices:[...s].sort(()=>Math.random()-.5)};
+}
+function rnd(n){ return Math.floor(Math.random()*(n+1)); }
 
-  // Build 3 unique plausible choices
-  const choices = new Set([answer]);
-  let tries = 0;
-  while (choices.size < 3 && tries++ < 200) {
-    const noise = Math.floor(Math.random() * 5) - 2;
-    const c = answer + noise;
-    if (c >= 0 && c <= max + 5 && c !== answer) choices.add(c);
-  }
-  for (let v = 0; choices.size < 3; v++) {
-    if (v >= 0 && v !== answer) choices.add(v);
-  }
+// ── TIMER ──────────────────────────────────────────────────
+function startTimer(ms){
+  stopTimer();
+  const bar=document.getElementById("timer-bar");
+  bar.style.transition="none"; bar.style.transform="scaleX(1)"; bar.className="";
+  bar.getBoundingClientRect(); // reflow
+  timerDur=ms; timerStart=performance.now();
+  bar.style.transition=`transform ${ms}ms linear`; bar.style.transform="scaleX(0)";
 
-  return { a, b, answer, op, choices: [...choices].sort(() => Math.random() - 0.5) };
+  function tick(){
+    const frac=1-(performance.now()-timerStart)/timerDur;
+    if(frac<0.25) bar.className="urgent";
+    else if(frac<0.5) bar.className="warn";
+    if(frac<=0){ stopTimer(); onTimeout(); return; }
+    timerRAF=requestAnimationFrame(tick);
+  }
+  timerRAF=requestAnimationFrame(tick);
+}
+function stopTimer(){ if(timerRAF){ cancelAnimationFrame(timerRAF); timerRAF=null; } }
+
+function onTimeout(){
+  if(answered) return;
+  answered=true; playTick();
+  document.getElementById("problem-text").classList.add("blurred");
+  const tm=document.getElementById("timeout-msg");
+  tm.textContent=`${t("timeout")}  ${t("showAnswer")} ${current.answer}`;
+  tm.classList.add("show");
+  document.querySelectorAll(".choice-btn").forEach(b=>{
+    b.disabled=true;
+    if(+b.textContent===current.answer) b.classList.add("correct-ans");
+  });
+  if(qIndex>=TOTAL_Q-1) setTimeout(showCelebrate,1000);
+  else document.getElementById("next-btn").style.display="block";
 }
 
-// ── NUMBER LINE ───────────────────────────────────────────
-function renderNumberLine({ a, b, answer, op }) {
-  const max = LEVEL_MAX[level];
-  const nl = document.getElementById("number-line");
-  nl.innerHTML = "";
-  const showMax = Math.min(Math.max(max, answer), 20);
-  const lo = op === "sub" ? answer : a;
-  const hi = op === "sub" ? a     : answer;
+// ── HINT DOTS ─────────────────────────────────────────────
+function renderDots({a,b,op}){
+  const w=document.getElementById("hint-dots"); w.innerHTML="";
+  if(!DIFF[diff].showDots||a>10||b>10) return;
+  const ga=document.createElement("div"); ga.className="dot-group";
+  for(let i=0;i<a;i++){ const d=document.createElement("span"); d.className="hint-dot dot-a"; ga.appendChild(d); }
+  const sep=document.createElement("span"); sep.className="dot-sep"; sep.textContent=op==="add"?"+":" −";
+  const gb=document.createElement("div"); gb.className="dot-group";
+  for(let i=0;i<b;i++){ const d=document.createElement("span"); d.className="hint-dot dot-b"; gb.appendChild(d); }
+  w.appendChild(ga); w.appendChild(sep); w.appendChild(gb);
+}
 
-  for (let i = 0; i <= showMax; i++) {
-    const cell = document.createElement("div");
-    cell.className = "nl-cell";
-    const dot = document.createElement("div");
-    dot.className = "nl-dot";
-
-    if (i === answer)          dot.classList.add("result-dot");
-    else if (i === a)          dot.classList.add("start-dot");
-    else if (i > lo && i < hi) dot.classList.add(op === "add" ? "jump-add" : "jump-sub");
-
-    const num = document.createElement("div");
-    num.className = "nl-num";
-    const step = showMax <= 10 ? 1 : (showMax <= 15 ? 2 : 5);
-    if (i % step === 0 || i === a || i === answer) {
-      num.textContent = i;
-      if (i === answer) num.classList.add("result-num");
-      if (i === a && i !== answer) num.classList.add("start-num");
+// ── NUMBER LINE ────────────────────────────────────────────
+function renderLine({a,b,answer,op}){
+  const wrap=document.getElementById("number-line-wrap");
+  const nl=document.getElementById("number-line"); nl.innerHTML="";
+  if(!DIFF[diff].showLine){ wrap.style.display="none"; return; }
+  wrap.style.display="block";
+  const max=DIFF[diff].maxNum, showMax=Math.min(Math.max(max,answer),20);
+  const lo=op==="sub"?answer:a, hi=op==="sub"?a:answer;
+  for(let i=0;i<=showMax;i++){
+    const cell=document.createElement("div"); cell.className="nl-cell";
+    const dot=document.createElement("div"); dot.className="nl-dot";
+    if(i===answer)          dot.classList.add("result-dot");
+    else if(i===a)          dot.classList.add("start-dot");
+    else if(i>lo&&i<hi)     dot.classList.add(op==="add"?"jump-add":"jump-sub");
+    const num=document.createElement("div"); num.className="nl-num";
+    const step=showMax<=10?1:2;
+    if(i%step===0||i===a||i===answer){
+      num.textContent=i;
+      if(i===answer) num.classList.add("result-num");
+      if(i===a&&i!==answer) num.classList.add("start-num");
     }
-    cell.appendChild(dot);
-    cell.appendChild(num);
-    nl.appendChild(cell);
+    cell.appendChild(dot); cell.appendChild(num); nl.appendChild(cell);
   }
 }
 
-// ── RENDER UI ─────────────────────────────────────────────
-function renderUI() {
-  document.getElementById("lang-toggle").textContent = t("langToggle");
-  document.getElementById("next-btn").textContent = t("next");
-  document.getElementById("lbl-add").textContent = t("modeAdd");
-  document.getElementById("lbl-sub").textContent = t("modeSub");
-  document.getElementById("lbl-mix").textContent = t("modeMix");
-  document.getElementById("celebrate-text").textContent = t("celebrate");
-  document.getElementById("celebrate-sub").textContent = t("celebrateSub");
-  document.getElementById("restart-btn").textContent = t("restart");
-}
-
-// ── STARS ─────────────────────────────────────────────────
-function renderStars() {
-  const el = document.getElementById("stars");
-  el.innerHTML = "";
-  for (let i = 0; i < TOTAL_Q; i++) {
-    const s = document.createElement("span");
-    s.className = "star" + (i < score ? " on" : "");
-    s.textContent = i < score ? "⭐" : "☆";
+// ── STARS ──────────────────────────────────────────────────
+function renderStars(){
+  const el=document.getElementById("stars"); el.innerHTML="";
+  for(let i=0;i<TOTAL_Q;i++){
+    const s=document.createElement("span");
+    s.className="star"+(i<score?" on":"");
+    s.textContent=i<score?"⭐":"☆";
     el.appendChild(s);
   }
 }
 
-// ── RENDER QUESTION ───────────────────────────────────────
-function renderQuestion() {
-  answered = false;
-  const { a, b, op, choices } = current;
-  const opSym = op === "add" ? "+" : "−";
-  const opClass = op === "add" ? "op-add" : "op-sub";
+// ── RENDER UI ─────────────────────────────────────────────
+function renderUI(){
+  document.getElementById("lang-toggle").textContent=t("langToggle");
+  document.getElementById("next-btn").textContent=t("next");
+  document.getElementById("lbl-add").textContent=t("modeAdd");
+  document.getElementById("lbl-sub").textContent=t("modeSub");
+  document.getElementById("lbl-mix").textContent=t("modeMix");
+  document.getElementById("celebrate-text").textContent=t("celebrate");
+  document.getElementById("celebrate-sub").textContent=t("celebrateSub");
+  document.getElementById("restart-btn").textContent=t("restart");
+  t("dlbls").forEach((l,i)=>{ const e=document.getElementById("dlbl"+(i+1)); if(e)e.textContent=l; });
+  document.getElementById("level-info").textContent=t("diffDesc")[diff-1];
+}
 
-  document.getElementById("problem-text").innerHTML =
-    `${a} <span class="${opClass}">${opSym}</span> ${b} = ?`;
-  document.getElementById("hint-label").textContent = t("choose");
+// ── RENDER QUESTION ────────────────────────────────────────
+function renderQuestion(){
+  stopTimer(); answered=false;
+  const{a,b,op}=current;
+  const sym=op==="add"?"+":"−", cls=op==="add"?"op-add":"op-sub";
+  const pt=document.getElementById("problem-text");
+  pt.innerHTML=`${a} <span class="${cls}">${sym}</span> ${b} = ?`;
+  pt.classList.remove("blurred");
+  document.getElementById("hint-label").textContent=t("choose");
+  const fb=document.getElementById("feedback"); fb.textContent="\u00a0"; fb.className="hidden";
+  const tm=document.getElementById("timeout-msg"); tm.textContent=""; tm.classList.remove("show");
+  document.getElementById("next-btn").style.display="none";
 
-  const fb = document.getElementById("feedback");
-  fb.textContent = "\u00a0"; fb.className = "hidden";
-  document.getElementById("next-btn").style.display = "none";
+  // Timer bar reset
+  const cfg=DIFF[diff], bar=document.getElementById("timer-bar");
+  const tbw=document.getElementById("timer-bar-wrap");
+  tbw.style.display=cfg.timer?"block":"none";
+  bar.style.transition="none"; bar.style.transform="scaleX(1)"; bar.className="";
 
-  renderNumberLine(current);
-  renderStars();
+  renderDots(current); renderLine(current); renderStars();
 
-  const box = document.getElementById("choices");
-  box.innerHTML = "";
-  choices.forEach(val => {
-    const btn = document.createElement("button");
-    btn.className = "choice-btn";
-    btn.textContent = val;
-    btn.onclick = () => checkAnswer(val, btn);
+  const box=document.getElementById("choices"); box.innerHTML="";
+  current.choices.forEach(val=>{
+    const btn=document.createElement("button"); btn.className="choice-btn";
+    btn.textContent=val; btn.onclick=()=>checkAnswer(val,btn);
     box.appendChild(btn);
   });
+
+  if(cfg.timer) setTimeout(()=>startTimer(cfg.timer),80);
 }
 
-// ── CHECK ANSWER ──────────────────────────────────────────
-function checkAnswer(val, btn) {
-  if (answered) return;
-  answered = true;
-
-  const fb = document.getElementById("feedback");
-  const btns = document.querySelectorAll(".choice-btn");
-  btns.forEach(b => b.disabled = true);
-
-  if (val === current.answer) {
-    btn.classList.add("correct-ans");
-    fb.textContent = t("correct");
-    fb.className = "correct";
-    score++;
-    renderStars();
-    playCorrect();
+// ── CHECK ANSWER ───────────────────────────────────────────
+function checkAnswer(val,btn){
+  if(answered) return;
+  answered=true; stopTimer();
+  document.getElementById("problem-text").classList.remove("blurred");
+  document.getElementById("timeout-msg").classList.remove("show");
+  const fb=document.getElementById("feedback");
+  const btns=document.querySelectorAll(".choice-btn");
+  btns.forEach(b=>b.disabled=true);
+  if(val===current.answer){
+    btn.classList.add("correct-ans"); fb.textContent=t("correct"); fb.className="correct";
+    score++; renderStars(); playOK();
   } else {
     btn.classList.add("wrong-ans");
-    btns.forEach(b => { if (+b.textContent === current.answer) b.classList.add("correct-ans"); });
-    fb.textContent = `${t("wrong")}  ${t("showAnswer")} ${current.answer}`;
-    fb.className = "wrong";
-    playWrong();
+    btns.forEach(b=>{ if(+b.textContent===current.answer) b.classList.add("correct-ans"); });
+    fb.textContent=`${t("wrong")}  ${t("showAnswer")} ${current.answer}`; fb.className="wrong";
+    playBad();
   }
-
-  if (qIndex >= TOTAL_Q - 1) {
-    setTimeout(showCelebrate, 900);
-  } else {
-    document.getElementById("next-btn").style.display = "block";
-  }
+  if(qIndex>=TOTAL_Q-1) setTimeout(showCelebrate,900);
+  else document.getElementById("next-btn").style.display="block";
 }
 
-// ── NEXT ──────────────────────────────────────────────────
-function nextQuestion() {
-  qIndex++;
-  current = genQuestion();
-  renderQuestion();
-}
+// ── NEXT ───────────────────────────────────────────────────
+function nextQuestion(){ qIndex++; current=gen(); renderQuestion(); }
 
 // ── CELEBRATE ─────────────────────────────────────────────
-function showCelebrate() {
-  const emojis = score === TOTAL_Q ? "🏆" : score >= TOTAL_Q * 0.75 ? "🌟" : "😊";
-  document.getElementById("celebrate-emoji").textContent = emojis;
-  document.getElementById("celebrate-score").textContent = t("scoreOf", score, TOTAL_Q);
-  document.getElementById("celebrate-text").textContent = t("celebrate");
-  document.getElementById("celebrate-sub").textContent = t("celebrateSub");
-  document.getElementById("restart-btn").textContent = t("restart");
+function showCelebrate(){
+  stopTimer();
+  const e=score===TOTAL_Q?"🏆":score>=TOTAL_Q*.75?"🌟":"😊";
+  document.getElementById("celebrate-emoji").textContent=e;
+  document.getElementById("celebrate-score").textContent=t("scoreOf",score,TOTAL_Q);
+  document.getElementById("celebrate-text").textContent=t("celebrate");
+  document.getElementById("celebrate-sub").textContent=t("celebrateSub");
+  document.getElementById("restart-btn").textContent=t("restart");
   document.getElementById("celebrate").classList.add("show");
-  playCorrect();
-  if (score >= TOTAL_Q * 0.75) {
-    setTimeout(playCorrect, 350);
-    setTimeout(playCorrect, 700);
-  }
+  playOK(); if(score>=Math.ceil(TOTAL_Q*.75)){ setTimeout(playOK,350); setTimeout(playOK,700); }
 }
 
-function restartRound() {
-  qIndex = 0; score = 0;
+function restartRound(){
+  stopTimer(); qIndex=0; score=0;
   document.getElementById("celebrate").classList.remove("show");
-  current = genQuestion();
-  renderUI();
-  renderQuestion();
+  current=gen(); renderUI(); renderQuestion();
 }
 
-// ── INIT ──────────────────────────────────────────────────
-renderUI();
-restartRound();
+// ── INIT ───────────────────────────────────────────────────
+renderUI(); restartRound();
 </script>
 
 </body>
